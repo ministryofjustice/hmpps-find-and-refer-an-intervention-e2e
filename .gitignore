@@ -1,0 +1,21 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+.env
+
+### IntelliJ IDEA ###
+.idea/**/*
+!.idea/runConfigurations
+!.idea/runConfigurations/**/*
+!.idea/codeStyles/**/*
+!.idea/inspectionProfiles/**/*
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
