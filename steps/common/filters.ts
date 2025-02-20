@@ -1,0 +1,28 @@
+import {expect, Page} from "@playwright/test";
+
+export type filterItem = {
+    inputType: 'radio' | 'checkbox'
+    name: string
+}
+
+export const applyFilters = async (page: Page, filters: filterItem[], expectedResultsNumber: number) => {
+    for (const filter of filters) {
+        await page.getByRole(filter.inputType, {name: filter.name, exact: true}).check();
+    }
+    await page.getByTestId('submit-button').click();
+    await expect(page.getByTestId('results-number')).toHaveText(`${expectedResultsNumber} results`);
+}
+
+export const verifyFilters = async (page: Page, filters: filterItem[]) => {
+    for (const filter of filters) {
+        await expect(page.getByRole(filter.inputType, {name: filter.name, exact: true})).toBeChecked();
+    }
+}
+
+export const removeFilters = async (page: Page, filters: filterItem[], expectedResultsNumber: number) => {
+    for (const filter of filters) {
+        await page.getByRole(filter.inputType, {name: filter.name, exact: true}).uncheck();
+    }
+    await page.getByTestId('submit-button').click();
+    await expect(page.getByTestId('results-number')).toHaveText(`${expectedResultsNumber} results`);
+}
