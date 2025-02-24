@@ -26,3 +26,8 @@ export const removeFilters = async (page: Page, filters: filterItem[], expectedR
     await page.getByTestId('submit-button').click();
     await expect(page.getByTestId('results-number')).toHaveText(`${expectedResultsNumber} results`);
 }
+
+export const removeFilterViaPane = async (page: Page, filter: string) => {
+    await page.getByRole('link', {name: `Remove this filter ${filter}`, exact: true}).click();
+    await expect(page.getByLabel('Male', { exact: true })).toBeChecked({checked: false})
+}

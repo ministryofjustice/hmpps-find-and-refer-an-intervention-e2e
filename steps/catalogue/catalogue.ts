@@ -8,17 +8,26 @@ export const goToInterventionsDetailPage = async (page: Page, interventionName: 
     await page.getByRole('link', { name: interventionName }).click();
 }
 
+export const goToCustodyCataloguePage = async (page: Page) => {
+    await page.getByRole('link', { name: 'custody' }).click();
+    await expect(page).toHaveURL(/.*interventions\/custody/);
+}
+
+export const goToCommunityCataloguePage = async (page: Page) => {
+    await page.getByRole('link', { name: 'community' }).click();
+    await expect(page).toHaveURL(/.*interventions\/community/);
+}
+
 export const verifyCatalogueFilters = async (page: Page) => {
     await applyFilters(page, [{name:'Female', inputType: 'checkbox'}], 2)
-    await removeFilters(page, [{name:'Female', inputType: 'checkbox'}], 9)
-    await applyFilters(page, [{name:'Male', inputType: 'checkbox'}], 9)
-    await applyFilters(page, [{name:'Community', inputType: 'radio'}], 5)
+    await removeFilters(page, [{name:'Female', inputType: 'checkbox'}], 5)
+    await applyFilters(page, [{name:'Male', inputType: 'checkbox'}], 5)
     await applyFilters(page, [{name:'Accredited Programmes', inputType: 'checkbox'}], 3)
-    await verifyFilters(page, [{name:'Male', inputType: 'checkbox'}, {name:'Accredited Programmes', inputType: 'checkbox'}, {name:'Community', inputType: 'radio'}])
+    await verifyFilters(page, [{name:'Male', inputType: 'checkbox'}, {name:'Accredited Programmes', inputType: 'checkbox'}])
 }
 
 export const verifyCatalogueFiltersWithPagination = async (page: Page) => {
-    await applyFilters(page, [{name:'Male', inputType: 'checkbox'}, {name:'Accredited Programmes', inputType: 'checkbox'}, {name:'Commissioned Rehabilitative Services', inputType: 'checkbox'}], 9)
+    await applyFilters(page, [{name:'Male', inputType: 'checkbox'}, {name:'Accredited Programmes', inputType: 'checkbox'}, {name:'Commissioned Rehabilitative Services', inputType: 'checkbox'}], 5)
     await clickOnPaginationPage(page, 2)
     await expect(page).toHaveURL(/.*gender-checkbox=Male&type-checkbox=ACP&type-checkbox=CRS&page=2/);
     await clickOnPaginationPrevious(page)
@@ -27,15 +36,15 @@ export const verifyCatalogueFiltersWithPagination = async (page: Page) => {
 }
 
 export const verifyCatalogueFiltersWithNavigationToInterventionDetails = async (page: Page) => {
-    await applyFilters(page, [{name:'Male', inputType: 'checkbox'}, {name:'Community', inputType: 'radio'}], 5)
+    await applyFilters(page, [{name:'Male', inputType: 'checkbox'}], 5)
     await goToInterventionsDetailPage(page, 'Building Better Relationships');
     await verifyCorrectInterventionsDetailPage(page, 'Intervention name');
     await clickBackLink(page)
-    await expect(page).toHaveURL(/.*setting-radio=COMMUNITY&gender-checkbox=Male/);
-    await verifyFilters(page, [{name:'Male', inputType: 'checkbox'}, {name:'Community', inputType: 'radio'}])
+    await expect(page).toHaveURL(/.*gender-checkbox=Male/);
+    await verifyFilters(page, [{name:'Male', inputType: 'checkbox'}])
 }
 
 export const verifyCatalogueFiltersMessageWithNoResults = async (page: Page) => {
-    await applyFilters(page, [{name:'Female', inputType: 'checkbox'}, {name:'Custody', inputType: 'radio'}], 0)
+    await applyFilters(page, [{name:'Female', inputType: 'checkbox'}, {name: 'Structured Interventions', inputType: 'checkbox'}], 0)
     await expect(page.getByText('There are no matching results')).toBeVisible();
 }
