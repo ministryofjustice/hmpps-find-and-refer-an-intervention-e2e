@@ -22,8 +22,8 @@ export const findAndReferLoginCommunity = async (page: Page) => {
 
 export const findAndReferUnauthorised = async (page: Page) => {
     await page.goto(process.env.FIND_AND_REFER_URL);
-    await page.getByLabel('Username').fill(process.env.HMPPS_UNAUTHORISED_AUTH_USERNAME)
-    await page.getByLabel('Password').fill(process.env.HMPPS_UNAUTHORISED_AUTH_PASSWORD)
+    await page.getByLabel('Username').fill(process.env.HMPPS_UNAUTHORISED_AUTH_USERNAME as string)
+    await page.getByLabel('Password').fill(process.env.HMPPS_UNAUTHORISED_AUTH_PASSWORD as string)
     await page.locator('#submit', { hasText: 'Sign in' }).click()
 
     await expect(page.getByText('Authorisation Error')).toBeVisible();
