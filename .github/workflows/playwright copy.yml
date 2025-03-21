@@ -7,11 +7,6 @@ on:
 
 jobs:
   helm_lint:
-    strategy:
-      matrix:
-        environments: ['dev', 'preprod', 'prod']
     name: helm lint
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@v2 # WORKFLOW_VERSION
     secrets: inherit
-    with:
-      environment: ${{ matrix.environments }}
