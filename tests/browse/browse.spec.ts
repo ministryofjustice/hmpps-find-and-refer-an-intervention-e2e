@@ -47,7 +47,7 @@ test.describe('Catalogue Page', () => {
   })
   test('can clear filters on community page', async ({ page }) => {
     await findAndReferLoginCommunity(page)
-    await applyFilters(page, [{ name: 'Male', inputType: 'checkbox' }], 34)
+    await applyFilters(page, [{ name: 'Male', inputType: 'checkbox' }], '&gender-checkbox=Male')
     await removeFilterViaPane(page, 'Male')
   })
 })
