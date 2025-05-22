@@ -16,12 +16,13 @@ export const fillTextFilter = async (
   await expect(page.getByTestId('results-number')).toHaveText(`${expectedResultsNumber} results`)
 }
 
-export const applyFilters = async (page: Page, filters: filterItem[], expectedResultsNumber: number) => {
+export const applyFilters = async (page: Page, filters: filterItem[], expectedFilterRequest: string) => {
   for (const filter of filters) {
     await page.getByRole(filter.inputType, { name: filter.name, exact: true }).check()
   }
   await page.getByTestId('submit-button').click()
-  await expect(page.getByTestId('results-number')).toHaveText(`${expectedResultsNumber} results`)
+  const filterRegex = new RegExp(`search-by-programme-name-input=${expectedFilterRequest}`)
+  await expect(page).toHaveURL(filterRegex)
 }
 
 export const verifyFilters = async (page: Page, filters: filterItem[]) => {
@@ -30,12 +31,13 @@ export const verifyFilters = async (page: Page, filters: filterItem[]) => {
   }
 }
 
-export const removeFilters = async (page: Page, filters: filterItem[], expectedResultsNumber: number) => {
+export const removeFilters = async (page: Page, filters: filterItem[], expectedFilterRequest: string) => {
   for (const filter of filters) {
     await page.getByRole(filter.inputType, { name: filter.name, exact: true }).uncheck()
   }
   await page.getByTestId('submit-button').click()
-  await expect(page.getByTestId('results-number')).toHaveText(`${expectedResultsNumber} results`)
+  const filterRegex = new RegExp(`search-by-programme-name-input=${expectedFilterRequest}`)
+  await expect(page).toHaveURL(filterRegex)
 }
 
 export const removeFilterViaPane = async (page: Page, filter: string) => {

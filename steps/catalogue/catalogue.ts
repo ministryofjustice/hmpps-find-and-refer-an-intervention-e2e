@@ -19,10 +19,10 @@ export const goToCommunityCataloguePage = async (page: Page) => {
 }
 
 export const verifyCatalogueFilters = async (page: Page) => {
-  await applyFilters(page, [{ name: 'Female', inputType: 'checkbox' }], 19)
-  await removeFilters(page, [{ name: 'Female', inputType: 'checkbox' }], 39)
-  await applyFilters(page, [{ name: 'Male', inputType: 'checkbox' }], 34)
-  await applyFilters(page, [{ name: 'Accredited Programmes', inputType: 'checkbox' }], 9)
+  await applyFilters(page, [{ name: 'Female', inputType: 'checkbox' }], '&gender-checkbox=Female')
+  await removeFilters(page, [{ name: 'Female', inputType: 'checkbox' }], '')
+  await applyFilters(page, [{ name: 'Male', inputType: 'checkbox' }], '&gender-checkbox=Male')
+  await applyFilters(page, [{ name: 'Accredited Programmes', inputType: 'checkbox' }], '&gender-checkbox=Male&type-checkbox=ACP')
   await verifyFilters(page, [
     { name: 'Male', inputType: 'checkbox' },
     { name: 'Accredited Programmes', inputType: 'checkbox' },
@@ -37,7 +37,7 @@ export const verifyCatalogueFiltersWithPagination = async (page: Page) => {
       { name: 'Accredited Programmes', inputType: 'checkbox' },
       { name: 'Commissioned Rehabilitative Services', inputType: 'checkbox' },
     ],
-    15,
+    '&gender-checkbox=Male&type-checkbox=ACP&type-checkbox=CRS',
   )
   await clickOnPaginationPage(page, 2)
   await expect(page).toHaveURL(/.*gender-checkbox=Male&type-checkbox=ACP&type-checkbox=CRS&page=2/)
@@ -51,7 +51,7 @@ export const verifyCatalogueFiltersWithPagination = async (page: Page) => {
 }
 
 export const verifyCatalogueFiltersWithNavigationToInterventionDetails = async (page: Page) => {
-  await applyFilters(page, [{ name: 'Male', inputType: 'checkbox' }], 34)
+  await applyFilters(page, [{ name: 'Male', inputType: 'checkbox' }],'&gender-checkbox=Male')
   await goToInterventionsDetailPage(page, 'Building Better Relationships')
   await verifyCorrectInterventionsDetailPage(page, 'Building Better Relationships')
   await clickBackLink(page)
