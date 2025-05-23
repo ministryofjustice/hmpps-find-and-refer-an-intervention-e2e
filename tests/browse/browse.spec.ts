@@ -1,5 +1,10 @@
-import { test } from '@playwright/test'
-import { findAndReferLoginCommunity, findAndReferLoginCustody, findAndReferUnauthorised } from '../../steps/auth/login'
+import {expect, test} from '@playwright/test'
+import {
+  findAndReferLogin,
+  findAndReferLoginCommunity,
+  findAndReferLoginCustody,
+  findAndReferUnauthorised
+} from '../../steps/auth/login'
 import {
   goToCommunityCataloguePage,
   goToCustodyCataloguePage,
@@ -9,6 +14,7 @@ import {
   verifyCatalogueFiltersWithPagination,
 } from '../../steps/catalogue/catalogue'
 import { applyFilters, removeFilterViaPane } from '../../steps/common/filters'
+import {searchForServiceUser} from "../../steps/searviceUser/search";
 
 test('Login and view the browse page as a custody user', async ({ page }) => {
   await findAndReferLoginCustody(page)
@@ -57,5 +63,23 @@ test.describe('custody Page', () => {
     await findAndReferLoginCommunity(page)
     await goToCustodyCataloguePage(page)
     await goToCommunityCataloguePage(page)
+  })
+})
+
+test.describe('search for Service User Page', () => {
+  test('form validates input correctly when empty', async ({ page }) => {
+    await findAndReferLogin(page)
+    await searchForServiceUser(page, '')
+    await expect(page.getByText('Enter CRN or prison number.')).toBeVisible()
+  })
+  test('form validates input correctly when incorrect format', async ({ page }) => {
+    await findAndReferLogin(page)
+    await searchForServiceUser(page, '12345')
+    await expect(page.getByText('Enter a CRN or prison number in the correct format, like X123456 for a CRN or D0168GH for a prison number')).toBeVisible()
+  })
+  test('form displays result when returned', async ({ page }) => {
+    await findAndReferLogin(page)
+    await searchForServiceUser(page, 'X123456')
+    await expect(page.getByText('Confirm David Clarke\'s details\n')).toBeVisible()
   })
 })
