@@ -79,7 +79,7 @@ test.describe('search for Service User Page', () => {
   })
   test('form displays result when returned', async ({ page }) => {
     await findAndReferLogin(page)
-    await searchForServiceUser(page, 'X123456')
-    await expect(page.getByText('Confirm David Clarke\'s details\n')).toBeVisible()
+    await searchForServiceUser(page, 'X718255')
+    await expect(page.getByText('Confirm Valerie Wyman\'s details\n')).toBeVisible()
   })
 })
