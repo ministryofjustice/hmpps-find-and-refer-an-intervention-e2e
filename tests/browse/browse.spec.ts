@@ -70,16 +70,26 @@ test.describe('search for Service User Page', () => {
   test('form validates input correctly when empty', async ({ page }) => {
     await findAndReferLogin(page)
     await searchForServiceUser(page, '')
-    await expect(page.getByText('Enter CRN or prison number.')).toBeVisible()
+    await expect(page.getByText('Enter CRN or prison number.').first()).toBeVisible()
   })
   test('form validates input correctly when incorrect format', async ({ page }) => {
     await findAndReferLogin(page)
     await searchForServiceUser(page, '12345')
-    await expect(page.getByText('Enter a CRN or prison number in the correct format, like X123456 for a CRN or D0168GH for a prison number')).toBeVisible()
+    await expect(page.getByText('Enter a CRN or prison number in the correct format, like X123456 for a CRN or D0168GH for a prison number').first()).toBeVisible()
   })
   test('form displays result when returned', async ({ page }) => {
     await findAndReferLogin(page)
     await searchForServiceUser(page, 'X718255')
     await expect(page.getByText('Confirm Valerie Wyman\'s details\n')).toBeVisible()
+  })
+  test('form shows correct error when user is not permitted ot search for a CRN', async ({ page }) => {
+    await findAndReferLogin(page)
+    await searchForServiceUser(page, 'X472241')
+    await expect(page.getByText('You are not authorised to view this person’s details. Either contact your system administrator or enter a different CRN or prison number').first()).toBeVisible()
+  })
+  test('form shows correct error when service user is not found', async ({ page }) => {
+    await findAndReferLogin(page)
+    await searchForServiceUser(page, 'X123456')
+    await expect(page.getByText('No person with CRN or prison number X123456 found').first()).toBeVisible()
   })
 })
