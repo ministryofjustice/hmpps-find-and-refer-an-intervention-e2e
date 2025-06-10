@@ -22,7 +22,11 @@ export const verifyCatalogueFilters = async (page: Page) => {
   await applyFilters(page, [{ name: 'Female', inputType: 'checkbox' }], '&gender-checkbox=Female')
   await removeFilters(page, [{ name: 'Female', inputType: 'checkbox' }], '')
   await applyFilters(page, [{ name: 'Male', inputType: 'checkbox' }], '&gender-checkbox=Male')
-  await applyFilters(page, [{ name: 'Accredited Programmes', inputType: 'checkbox' }], '&gender-checkbox=Male&type-checkbox=ACP')
+  await applyFilters(
+    page,
+    [{ name: 'Accredited Programmes', inputType: 'checkbox' }],
+    '&gender-checkbox=Male&type-checkbox=ACP',
+  )
   await verifyFilters(page, [
     { name: 'Male', inputType: 'checkbox' },
     { name: 'Accredited Programmes', inputType: 'checkbox' },
@@ -51,7 +55,7 @@ export const verifyCatalogueFiltersWithPagination = async (page: Page) => {
 }
 
 export const verifyCatalogueFiltersWithNavigationToInterventionDetails = async (page: Page) => {
-  await applyFilters(page, [{ name: 'Male', inputType: 'checkbox' }],'&gender-checkbox=Male')
+  await applyFilters(page, [{ name: 'Male', inputType: 'checkbox' }], '&gender-checkbox=Male')
   await goToInterventionsDetailPage(page, 'Building Better Relationships')
   await verifyCorrectInterventionsDetailPage(page, 'Building Better Relationships')
   await clickBackLink(page)

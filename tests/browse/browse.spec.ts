@@ -1,9 +1,9 @@
-import {expect, test} from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import {
   findAndReferLogin,
   findAndReferLoginCommunity,
   findAndReferLoginCustody,
-  findAndReferUnauthorised
+  findAndReferUnauthorised,
 } from '../../steps/auth/login'
 import {
   goToCommunityCataloguePage,
@@ -14,7 +14,7 @@ import {
   verifyCatalogueFiltersWithPagination,
 } from '../../steps/catalogue/catalogue'
 import { applyFilters, removeFilterViaPane } from '../../steps/common/filters'
-import {searchForServiceUser} from "../../steps/searviceUser/search";
+import searchForServiceUser from '../../steps/serviceUser/search'
 
 test('Login and view the browse page as a custody user', async ({ page }) => {
   await findAndReferLoginCustody(page)
@@ -75,17 +75,29 @@ test.describe('search for Service User Page', () => {
   test('form validates input correctly when incorrect format', async ({ page }) => {
     await findAndReferLogin(page)
     await searchForServiceUser(page, '12345')
-    await expect(page.getByText('Enter a CRN or prison number in the correct format, like X123456 for a CRN or D0168GH for a prison number').first()).toBeVisible()
+    await expect(
+      page
+        .getByText(
+          'Enter a CRN or prison number in the correct format, like X123456 for a CRN or D0168GH for a prison number',
+        )
+        .first(),
+    ).toBeVisible()
   })
   test('form displays result when returned', async ({ page }) => {
     await findAndReferLogin(page)
     await searchForServiceUser(page, 'X718255')
-    await expect(page.getByText('Confirm Valerie Wyman\'s details\n')).toBeVisible()
+    await expect(page.getByText("Confirm Valerie Wyman's details\n")).toBeVisible()
   })
   test('form shows correct error when user is not permitted ot search for a CRN', async ({ page }) => {
     await findAndReferLogin(page)
     await searchForServiceUser(page, 'X472241')
-    await expect(page.getByText('You are not authorised to view this person’s details. Either contact your system administrator or enter a different CRN or prison number').first()).toBeVisible()
+    await expect(
+      page
+        .getByText(
+          'You are not authorised to view this person’s details. Either contact your system administrator or enter a different CRN or prison number',
+        )
+        .first(),
+    ).toBeVisible()
   })
   test('form shows correct error when service user is not found', async ({ page }) => {
     await findAndReferLogin(page)
