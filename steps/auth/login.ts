@@ -15,9 +15,9 @@ export const findAndReferLoginCustody = async (page: Page) => {
   await page.getByLabel('Username').fill(appConfig.HMPPS_CUSTODY_AUTH_USERNAME)
   await page.getByLabel('Password').fill(appConfig.HMPPS_CUSTODY_AUTH_PASSWORD)
   await page.locator('#submit', { hasText: 'Sign in' }).click()
-  await page.getByText('See a list of all interventions').click()
-  await expect(page).toHaveTitle('Find and refer an intervention - Home')
-  await expect(page.getByText('Search results for custody')).toBeVisible()
+  await expect(page.getByText('Commissioned Rehabilitative Services (CRS)')).toBeVisible()
+  // Navigate to /interventions/custody after verifying the interventions home page
+  await page.goto(appConfig.FIND_AND_REFER_URL + 'interventions/custody')
 }
 
 export const findAndReferLoginCommunity = async (page: Page) => {
@@ -25,9 +25,10 @@ export const findAndReferLoginCommunity = async (page: Page) => {
   await page.getByLabel('Username').fill(appConfig.HMPPS_COMMUNITY_AUTH_USERNAME)
   await page.getByLabel('Password').fill(appConfig.HMPPS_COMMUNITY_AUTH_PASSWORD)
   await page.locator('#submit', { hasText: 'Sign in' }).click()
-  await page.getByText('See a list of all interventions').click()
-  await expect(page).toHaveTitle('Find and refer an intervention - Home')
-  await expect(page.getByText('Search results for community')).toBeVisible()
+  await expect(page.getByText('Commissioned Rehabilitative Services (CRS)')).toBeVisible()
+  // Navigate to /interventions/custody after verifying the interventions home page
+  await page.goto(appConfig.FIND_AND_REFER_URL + 'interventions/community')
+
 }
 
 export const findAndReferUnauthorised = async (page: Page) => {
