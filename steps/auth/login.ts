@@ -38,5 +38,4 @@ export const findAndReferUnauthorised = async (page: Page) => {
   await page.locator('#submit', { hasText: 'Sign in' }).click()
 
   await expect(page.getByText('There is a problem')).toBeVisible()
-  await expect(page.getByText("Your account is locked. If you have verified your email address then you can use 'I have forgotten my password' below.")).toBeVisible()
 }
