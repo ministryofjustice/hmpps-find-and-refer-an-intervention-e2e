@@ -16,13 +16,13 @@ env:
   HMPPS_UNAUTHORISED_AUTH_PASSWORD: ${{ secrets.HMPPS_UNAUTHORISED_AUTH_PASSWORD }}
 
 jobs:
-  test:
+  e2e-tests:
     timeout-minutes: 60
-    runs-on: moj-cloud-platform
+    runs-on: [self-hosted, Linux, X64, hmpps-github-actions-runner]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: lts/*
 
@@ -35,7 +35,7 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
